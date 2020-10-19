@@ -1,0 +1,32 @@
+@charset "UTF-8";
+/* 共通 SP縦 */
+body {
+  margin: 0;
+  font-size: 1rem; }
+
+.container {
+  height: 100vh;
+  background-color: lightgreen; }
+  .container .judgment::after {
+    content: "スマートフォン(縦)";
+    font-weight: bold; }
+  @media (orientation: landscape) {
+    .container {
+      background-color: lightblue; }
+      .container .judgment::after {
+        content: "スマートフォン(横)";
+        font-weight: bold; } }
+  @media (min-width: 768px) {
+    .container {
+      background-color: orange; }
+      .container .judgment::after {
+        content: "スマートフォン(横)";
+        font-weight: bold; } }
+  @media (min-width: 1025px) {
+    .container {
+      background-color: lightpink; }
+      .container .judgment::after {
+        content: "タブレット(縦or横)もしくは大型スマホ(横)";
+        font-weight: bold; } }
+
+/*# sourceMappingURL=map/style.css.map */

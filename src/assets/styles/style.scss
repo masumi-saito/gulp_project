@@ -1,0 +1,41 @@
+@import "./foundation/mixin";
+
+/* 共通 SP縦 */
+body {
+  margin: 0;
+  font-size: 1rem;
+}
+.container {
+  height: 100vh;
+  background-color: lightgreen;
+
+  @include mq(landscape) {
+    background-color: lightblue;
+  }
+  @include mq(tablet) {
+    background-color: orange;
+  }
+  @include mq(pc) {
+    background-color: lightpink;
+  }
+
+  .judgment {
+    &::after {
+      content: "スマートフォン(縦)";
+      font-weight: bold;
+
+      @include mq(landscape) {
+        content: "スマートフォン(横)";
+        font-weight: bold;
+      }
+      @include mq(tablet) {
+        content: "スマートフォン(横)";
+        font-weight: bold;
+      }
+      @include mq(pc) {
+        content: "タブレット(縦or横)もしくは大型スマホ(横)";
+        font-weight: bold;
+      }
+    }
+  }
+}

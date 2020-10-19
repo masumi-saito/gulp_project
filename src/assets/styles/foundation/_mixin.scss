@@ -1,0 +1,13 @@
+// メディアクエリの変数
+$breakpoints: (
+  'tablet': '(min-width: 768px)',
+  'pc': '(min-width: 1025px)',
+  'landscape': '(orientation: landscape)'
+) !default;
+
+// 変数指定なしの時はpcがデフォルトで当たるように設定
+@mixin mq($breakpoint: pc) {
+  @media #{map-get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
