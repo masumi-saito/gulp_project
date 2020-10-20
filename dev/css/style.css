@@ -20,13 +20,11 @@ body {
     .container {
       background-color: orange; }
       .container .judgment::after {
-        content: "スマートフォン(横)";
+        content: "大型スマホ(横)もしくはタブレット(縦or横)もしくは大型タブレット(縦)";
         font-weight: bold; } }
   @media (min-width: 1025px) {
     .container {
       background-color: lightpink; }
       .container .judgment::after {
-        content: "タブレット(縦or横)もしくは大型スマホ(横)";
+        content: "PCもしくは大型タブレット(横)";
         font-weight: bold; } }
-
-/*# sourceMappingURL=map/style.css.map */

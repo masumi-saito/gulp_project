@@ -4,8 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "cross-env NODE_ENV=production gulp default",
-    "dev": "gulp default"
+    "prod": "cross-env NODE_ENV=production gulp prod",
+    "stg": "cross-env NODE_ENV=staging gulp stg",
+    "dev": "cross-env NODE_ENV=development gulp dev"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

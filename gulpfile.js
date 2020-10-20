@@ -7,7 +7,7 @@ const $ = loadPlugins();
 const mqpacker = require('css-mqpacker');
 // ブラウザシンクの起動
 const browserSync = require('browser-sync');
-// コンパイル時のdist初期化
+// コンパイル時のディレクトリ初期化
 const del = require('del');
 // faviconサイズの定義(不必要なサイズはコメントアウト推奨)
 const sizes =[
@@ -24,8 +24,10 @@ const sizes =[
   [192, 192],  // Android/Chrome&ブラウザの一部（タブ・ホーム画面）、Win8/IE（ピン留め）
   [512, 512]  // WordPress
 ];
-// 商用環境と開発環境の切り分け
+// 商用環境用
 const isProd = process.env.NODE_ENV === "production";
+const isStg = process.env.NODE_ENV === "staging";
+const isDev = process.env.NODE_ENV === "development";
 
 // pugのコンパイル、ブラウザシンク
 function html() {
@@ -40,7 +42,9 @@ function html() {
         pretty: true
       })
     )
-    .pipe(dest('./dist'))
+    .pipe($.if(isProd, dest('./prod')))
+    .pipe($.if(isStg || isProd, dest('./stg')))
+    .pipe(dest('./dev'))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -52,7 +56,7 @@ function html() {
 // scssのコンパイル、ソースマップ作成、ベンダープレフィックス付与、minify化、ブラウザシンク
 function css() {
   return src('./src/assets/styles/style.scss')
-    .pipe($.if(!isProd, $.sourcemaps.init()))
+    .pipe($.if(isDev, $.sourcemaps.init()))
     .pipe($.sass())
     .on('error', $.sass.logError)
     .pipe(
@@ -61,15 +65,17 @@ function css() {
       })
     )
     .pipe($.postcss([mqpacker()]))
-    .pipe($.if(!isProd, $.sourcemaps.write('./map')))
-    .pipe(dest('./dist/css'))
+    .pipe($.if(isDev, $.sourcemaps.write('./map')))
+    .pipe(dest('./dev/css'))
     .pipe(
       $.rename({
         suffix: '.min'
       })
     )
     .pipe($.csso())
-    .pipe(dest('./dist/css'))
+    .pipe($.if(isProd, dest('./prod/css')))
+    .pipe($.if(isStg || isProd, dest('./stg/css')))
+    .pipe(dest('./dev/css'))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -81,13 +87,15 @@ function css() {
 // 画像の圧縮、出力、ブラウザシンク
 function img() {
   return src(['./src/assets/images/**/*', '!./src/assets/images/favicon/*'])
-    .pipe($.changed('./dist/images/**/*'))
+    .pipe($.changed('./prod/images/**/*'))
     .pipe(
       $.imagemin({
         optimizationLevel: 3
       })
     )
-    .pipe(dest('./dist/images'))
+    .pipe($.if(isProd, dest('./prod/images')))
+    .pipe($.if(isStg || isProd, dest('./stg/images')))
+    .pipe(dest('./dev/images'))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -116,7 +124,9 @@ function favicon(done) {
         })
       )
       .pipe($.rename(`favicon-${width}x${height}.png`))
-      .pipe(dest('./dist/images/favicon'))
+      .pipe($.if(isProd, dest('./prod/images/favicon/')))
+      .pipe($.if(isStg || isProd, dest('./stg/images/favicon')))
+      .pipe(dest('./dev/images/favicon'))
       .pipe(
         browserSync.reload({
           stream: true,
@@ -130,7 +140,7 @@ function favicon(done) {
 // JavaScript(ES6)の出力、ソースマップ作成、minify化、ブラウザシンク
 function js() {
   return src('./src/assets/js/**/*')
-    .pipe($.if(!isProd, $.sourcemaps.init()))
+    .pipe($.if(isDev, $.sourcemaps.init()))
     .pipe($.babel())
     .pipe($.plumber())
     .pipe($.uglify({ output: { comments: /^!/ } }))
@@ -139,8 +149,10 @@ function js() {
         newLine: '\n'
       })
     )
-    .pipe($.if(!isProd, $.sourcemaps.write('./map')))
-    .pipe(dest('./dist/js'))
+    .pipe($.if(isDev, $.sourcemaps.write('./map')))
+    .pipe($.if(isProd, dest('./prod/js')))
+    .pipe($.if(isStg || isProd, dest('./stg/js')))
+    .pipe(dest('./dev/js'))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -158,15 +170,42 @@ function lint() {
 }
 
 // ブラウザシンクの起動
-function bs() {
+function bsProd() {
   browserSync.init({
     server: {
-      baseDir: './dist/'
+      baseDir: './prod/'
     },
     notify: true,
     xip: false
   });
-
+  watch('./src/pug/**/*.pug', html);
+  watch('./src/assets/styles/**/*', css);
+  watch('./src/assets/js/**/*', js);
+  watch('./src/assets/images/**/*', img);
+  watch('./src/assets/images/favicon/*', favicon);
+}
+function bsStg() {
+  browserSync.init({
+    server: {
+      baseDir: './stg/'
+    },
+    notify: true,
+    xip: false
+  });
+  watch('./src/pug/**/*.pug', html);
+  watch('./src/assets/styles/**/*', css);
+  watch('./src/assets/js/**/*', js);
+  watch('./src/assets/images/**/*', img);
+  watch('./src/assets/images/favicon/*', favicon);
+}
+function bsDev() {
+  browserSync.init({
+    server: {
+      baseDir: './dev/'
+    },
+    notify: true,
+    xip: false
+  });
   watch('./src/pug/**/*.pug', html);
   watch('./src/assets/styles/**/*', css);
   watch('./src/assets/js/**/*', js);
@@ -174,14 +213,22 @@ function bs() {
   watch('./src/assets/images/favicon/*', favicon);
 }
 
-// コンパイル時のdist初期化
-function clean() {
-  return del(['./dist']);
+// コンパイル時のディレクトリ初期化
+function cleanProd() {
+  return del(['./prod', './stg', './dev']);
+}
+function cleanStg() {
+  return del(['./stg', './dev']);
+}
+function cleanDev() {
+  return del(['./dev']);
 }
 
 // buildとserveの定義
-const build = series(clean, parallel(html, css, img, favicon, series(lint, js)));
-const serve = series(build, bs);
+const build = parallel(html, css, img, favicon, series(lint, js));
+const prod = series(cleanProd, build, bsProd);
+const stg = series(cleanStg, build, bsStg);
+const dev = series(cleanDev, build, bsDev);
 
 // 各種タスクのコマンド化
 exports.html = html;
@@ -190,7 +237,10 @@ exports.img = img;
 exports.favicon = favicon;
 exports.js = js;
 exports.lint = lint;
-exports.bs = bs;
+exports.bsProd = bsProd;
+exports.bsProd = bsStg;
+exports.bsProd = bsDev;
 exports.build = build;
-exports.serve = serve;
-exports.default = serve;
+exports.prod = prod;
+exports.stg = stg;
+exports.dev = dev;
