@@ -52,18 +52,23 @@ Sass
 # 開発  
 `$ docker-compose exec gulp yarn dev` 
     
-# デプロイ  
-+ **ステージ環境へのデプロイ**  
+# 書き出し  
++ **ステージ環境への書き出し**  
     + Docker環境  
     `$ docker-compose exec gulp yarn stg`   
     
     + Docker環境以外  
     `$ yarn stg`
     
-+ **ステージ環境へのデプロイ**  
++ **ステージ環境への書き出し**  
     + Docker環境  
     `$ docker-compose exec gulp yarn prod`    
     
     + Docker環境以外  
-    `$ yarn prod`
+    `$ yarn prod`       
     
+# デプロイ  
++   
++   
++   
++   
