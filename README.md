@@ -60,7 +60,7 @@ Sass
     + Docker環境以外  
     `$ yarn stg`
     
-+ **ステージ環境への書き出し**  
++ **本番環境への書き出し**  
     + Docker環境  
     `$ docker-compose exec gulp yarn prod`    
     
