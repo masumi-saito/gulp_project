@@ -1,41 +1,4 @@
-@import "./foundation/mixin";
-
-/* 共通 SP縦 */
-body {
-  margin: 0;
-  font-size: 1rem;
-}
-.container {
-  height: 100vh;
-  background-color: lightgreen;
-
-  @include mq(landscape) {
-    background-color: lightblue;
-  }
-  @include mq(tablet) {
-    background-color: orange;
-  }
-  @include mq(pc) {
-    background-color: lightpink;
-  }
-
-  .judgment {
-    &::after {
-      content: "スマートフォン(縦)";
-      font-weight: bold;
-
-      @include mq(landscape) {
-        content: "スマートフォン(横)";
-        font-weight: bold;
-      }
-      @include mq(tablet) {
-        content: "大型スマホ(横)もしくはタブレット(縦or横)もしくは大型タブレット(縦)";
-        font-weight: bold;
-      }
-      @include mq(pc) {
-        content: "PCもしくは大型タブレット(横)";
-        font-weight: bold;
-      }
-    }
-  }
-}
+@import "./foundation/foudation-all";
+@import "./layout/_layout-all";
+@import "./object/component/component-all";
+@import "./object/pages/pages-all";

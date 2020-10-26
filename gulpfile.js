@@ -3,7 +3,7 @@ const { src, dest, series, parallel, watch } = require('gulp');
 // gulpプラグインのインポートツール
 const loadPlugins = require('gulp-load-plugins');
 const $ = loadPlugins();
-// メディアクエリ集約プラグイン
+// メディアクエリの集約
 const mqpacker = require('css-mqpacker');
 // ブラウザシンクの起動
 const browserSync = require('browser-sync');
@@ -24,6 +24,7 @@ const sizes =[
   [192, 192],  // Android/Chrome&ブラウザの一部（タブ・ホーム画面）、Win8/IE（ピン留め）
   [512, 512]  // WordPress
 ];
+
 // 商用環境用
 const isProd = process.env.NODE_ENV === "production";
 const isStg = process.env.NODE_ENV === "staging";
@@ -31,7 +32,7 @@ const isDev = process.env.NODE_ENV === "development";
 
 // pugのコンパイル、ブラウザシンク
 function html() {
-  return src('./src/pug/**/*.pug')
+  return src(['./src/pug/**/*.pug', '!./src/pug/**/_*.pug'])
     .pipe(
       $.plumber({
         errorHandler: $.notify.onError('Error: <%= error.message %>')

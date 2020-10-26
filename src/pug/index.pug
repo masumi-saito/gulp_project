@@ -1,13 +1,12 @@
+//- 変数
+include _includes/_valiable.pug
+
 <!DOCTYPE html>
 html(lang="ja")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0, minimum-scale=1.0")
-    link(rel="stylesheet", href="css/style.min.css")
-    script(src="js/main.js")
-    title gulp/pugテスト
+  include _includes/_head.pug
   body
-    .container
-      h1.title gulp/pugのテスト
-      p.judgment 現在の閲覧環境:
-      //- コメントはコンパイルされない
+    include _includes/_header.pug
+    main.l-main
+      .c-device-checker
+        p.c-device-checker_text 現在の閲覧環境:
+    include _includes/_footer.pug

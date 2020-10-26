@@ -1,0 +1,31 @@
+.c-device-checker {
+  height: 39rem;
+  padding: 3rem, 0;
+  &_text {
+    padding: 3rem;
+    text-align: center;
+    font-size: 1rem;
+    @include mq(tablet) {
+        font-size: 1.2rem;
+      }
+    @include mq(pc) {
+      font-size: 2rem;
+    }
+    &::after {
+      content: "スマートフォン(縦)";
+      font-weight: bold;
+      @include mq(landscape) {
+        content: "スマートフォン(横)";
+        font-weight: bold;
+      }
+      @include mq(tablet) {
+        content: "大型スマホ(横)もしくはタブレット(縦or横)もしくは大型タブレット(縦)";
+        font-weight: bold;
+      }
+      @include mq(pc) {
+        content: "PCもしくは大型タブレット(横)";
+        font-weight: bold;
+      }
+    }
+  }
+}
