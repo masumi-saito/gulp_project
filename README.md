@@ -18,7 +18,6 @@ gulpを用いて以下の処理を自動化しています。
 
 # 目次  
 
-+  [gulpプラグイン一覧](#gulpプラグイン一覧)  
 +  [必要条件](#必要条件)  
 +  [環境構築](#環境構築)  
 +  [開発](#開発)  
@@ -42,6 +41,12 @@ gulpを用いて以下の処理を自動化しています。
 
 
 # 環境構築  
+
++  **Docker環境で開発する場合**  
+
+    -  Dockerのインストール  
+https://hub.docker.com/editions/community/docker-ce-desktop-mac  
+
 
 +  **Docker環境以外で開発する場合**   
 
@@ -75,12 +80,6 @@ https://brew.sh/index_ja.html
 
     -  package.jsonの内容からパッケージをインストール  
        `$ yarn install`  
-
-
-+  **Docker環境で開発する場合**  
-
-    -  Dockerのインストール  
-https://hub.docker.com/editions/community/docker-ce-desktop-mac  
 
 
 
