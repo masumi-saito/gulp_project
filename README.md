@@ -6,13 +6,15 @@ pugおよびSass（scss）を用いたHTMLコーディングの効率化、
 gulpを用いて以下の処理を自動化しています。
 
 
-+   pugファイルからhrmlファイルの出力
++   pugファイルからhtmlファイルの出力
 +   scssファイルの一元化、ベンダープレフィックスの自動付与、メディアクエリ記述の集約、cssへのコンパイル、ミニファイ化
 +   JavaScriptファイルの一元化、ミニファイ化
 +   画像ファイルのミニファイ化
 +   ファビコンを単一ファイルから用途に応じた複数サイズへのリサイズ、ミニファイ化
 +   画像ファイルのミニファイ化
 +   dev環境、ステージング環境、本番環境それぞれ必要毎に異なる必要な処理がを選択〜自動処理
+
+
 
 # 目次  
 
@@ -21,6 +23,8 @@ gulpを用いて以下の処理を自動化しています。
 +  [環境構築](#環境構築)  
 +  [開発](#開発)  
 +  [デプロイ](#デプロイ)  
+
+
 
 # 必要条件 
 
@@ -34,6 +38,8 @@ gulpを用いて以下の処理を自動化しています。
     -  gulp
     -  pug
     -  graphicsmagick  
+
+
 
 # 環境構築  
 
@@ -85,7 +91,8 @@ https://hub.docker.com/editions/community/docker-ce-desktop-mac
 +  **Docker環境以外**  
       `$ yarn stg`
 
-    
+ 
+ 
 # 書き出し  
 + **ステージ環境への書き出し**  
     + Docker環境  
@@ -100,7 +107,9 @@ https://hub.docker.com/editions/community/docker-ce-desktop-mac
     
     + Docker環境以外  
     `$ yarn prod`       
-    
+
+
+
 # デプロイ  
 +   CircleCIにてデプロイ予定
 +   
